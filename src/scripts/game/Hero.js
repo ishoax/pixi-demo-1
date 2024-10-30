@@ -4,7 +4,10 @@ import { App } from '../system/App';
 
 export class Hero {
     constructor() {
-        this.createSprite();
+		this.jumpTexture =App.res("jump");
+		this.walkTextures = [App.res("walk1"), App.res("walk2")];
+
+		this.createSprite();
         this.createBody();
         App.app.ticker.add(this.update, this);
 
@@ -28,6 +31,9 @@ export class Hero {
             ++this.jumpIndex;
             this.platform = null;
             Matter.Body.setVelocity(this.body, { x: 0, y: -this.dy });
+			// Set jump sprite texture
+			this.sprite.stop();
+			this.sprite.texture = this.jumpTexture;
         }
     }
 
@@ -35,6 +41,9 @@ export class Hero {
     stayOnPlatform(platform) {
         this.platform = platform;
         this.jumpIndex = 0;
+		// Resume playing of walk cycle on platform
+		this.sprite.textures = this.walkTextures;		
+		this.sprite.play();		
     }
     // [/08]
 
@@ -57,10 +66,7 @@ export class Hero {
     }
 
     createSprite() {
-        this.sprite = new PIXI.AnimatedSprite([
-            App.res("walk1"),
-            App.res("walk2")
-        ]);
+        this.sprite = new PIXI.AnimatedSprite(this.walkTextures);
 
         this.sprite.x = App.config.hero.position.x;
         this.sprite.y = App.config.hero.position.y;
