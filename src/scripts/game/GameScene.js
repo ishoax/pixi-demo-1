@@ -15,6 +15,9 @@ export class GameScene extends Scene {
         //[13]
         this.createUI();
         //[/13]
+		if (process.env.NODE_ENV === 'development') {
+			this.container.addChild(App.debugSprite);
+		}
     }
     //[13]
     createUI() {
@@ -75,6 +78,10 @@ export class GameScene extends Scene {
     update(dt) {
         this.bg.update(dt);
         this.platfroms.update(dt);
+
+		if (process.env.NODE_ENV === 'development') {
+			App.debugSprite.texture.update();
+		}
     }
 
     destroy() {

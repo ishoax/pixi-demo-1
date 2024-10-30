@@ -30,6 +30,19 @@ class Application {
         this.physics = Matter.Engine.create();
         const runner = Matter.Runner.create();
         Matter.Runner.run(runner, this.physics);
+
+		if (process.env.NODE_ENV === 'development') {
+			this.render = Matter.Render.create({
+				engine: this.physics,
+				options: {
+					width: window.innerWidth,
+					height: window.innerHeight
+				},
+			});
+
+			this.debugSprite = new PIXI.Sprite(PIXI.Texture.from(this.render.canvas));
+			Matter.Render.run(this.render);
+		}
     }
     // [/06]
 
