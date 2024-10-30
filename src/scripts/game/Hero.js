@@ -49,7 +49,8 @@ export class Hero {
         this.sprite.y = this.body.position.y - this.sprite.height / 2;
 
         // [14]
-        if (this.sprite.y > window.innerHeight) {
+		// If sprite falls offscreen either down or past the left side of the screen kill Hero
+        if (this.sprite.y > window.innerHeight || this.sprite.x < -this.sprite.width) {
             this.sprite.emit("die");
         }
         // [/14]
