@@ -3,7 +3,7 @@ import { GameScene } from "./GameScene";
 
 export const Config = {
     loader: Tools.massiveRequire(require["context"]('./../../sprites/', true, /\.(mp3|png|jpe?g)$/)),
-    bgSpeed: 2,
+    bgSpeed: 3,
     score: {
         x: 10,
         y: 10,
