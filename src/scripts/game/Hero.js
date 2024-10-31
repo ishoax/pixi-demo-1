@@ -75,9 +75,12 @@ export class Hero {
 
     createSprite() {
         this.sprite = new PIXI.AnimatedSprite(this.walkTextures);
-
+		
         this.sprite.x = App.config.hero.position.x;
-        this.sprite.y = App.config.hero.position.y;
+		// Depending on the window height of the user's browser the Hero will automatically die if the browser window is too small
+		// Calculate the Hero above the initial starting platform created 
+		const tileHeight = PIXI.Texture.from("tile").height;
+        this.sprite.y = window.innerHeight - (tileHeight * App.config.initialPlatform.rows);
         this.sprite.loop = true;
         this.sprite.animationSpeed = 0.1;
         this.sprite.play();

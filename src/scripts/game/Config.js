@@ -145,13 +145,18 @@ export const Config = {
         maxJumps: 2,
         position: {
             x: 350,
-            y: 595
+            y: 0
         },
 		particlePosition: {
 			x: 38,
 			y: 80
 		}
     },
+	initialPlatform: {
+		rows: 4,
+		cols: 6,
+		x: 200
+	},
     scenes: {
         "Game": GameScene
     }

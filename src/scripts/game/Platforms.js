@@ -7,11 +7,8 @@ export class Platforms {
         this.platforms = [];
         this.container = new PIXI.Container();
 
-        this.createPlatform({
-            rows: 4,
-            cols: 6,
-            x: 200
-        });
+		// Create the initial platform for the Hero to stand on
+        this.createPlatform(App.config.initialPlatform);
     }
 
     get randomData() {
