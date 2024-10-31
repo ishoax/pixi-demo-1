@@ -1,6 +1,8 @@
 import * as Matter from 'matter-js';
 import * as PIXI from "pixi.js";
 import { App } from '../system/App';
+import { Emitter, upgradeConfig } from "@pixi/particle-emitter";
+import jumpEmitterJSON from "../data/jump-emitter.json";
 
 export class Hero {
     constructor() {
@@ -9,6 +11,7 @@ export class Hero {
 
 		this.createSprite();
         this.createBody();
+		this.createParticleEmitter();
         App.app.ticker.add(this.update, this);
 
         this.dy = App.config.hero.jumpSpeed;
@@ -27,7 +30,12 @@ export class Hero {
     //[/12]
 
     startJump() {
-        if (this.platform || this.jumpIndex === 1) {
+		const jumpIndex1 = this.jumpIndex === 1;
+        if (this.platform || jumpIndex1) {
+			// Mid air jump visual feedback
+			if(jumpIndex1){
+				this.emitter.playOnce();
+			}
             ++this.jumpIndex;
             this.platform = null;
             Matter.Body.setVelocity(this.body, { x: 0, y: -this.dy });
@@ -74,6 +82,18 @@ export class Hero {
         this.sprite.animationSpeed = 0.1;
         this.sprite.play();
     }
+
+	/**
+	 * Create particle emitter for mid air jump
+	 */
+	createParticleEmitter() {
+		const updatedConfig = upgradeConfig(jumpEmitterJSON, [App.res("box25px"), App.res("box50px")]);
+		this.emitter = new Emitter(this.sprite, updatedConfig);
+		const particlePos = App.config.hero.particlePosition;
+		this.emitter.updateSpawnPos(particlePos.x, particlePos.y);
+		this.emitter.emit = false;
+		this.emitter.autoUpdate = true;
+	}
 
     destroy() {
         App.app.ticker.remove(this.update, this);

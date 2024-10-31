@@ -146,7 +146,11 @@ export const Config = {
         position: {
             x: 350,
             y: 595
-        }
+        },
+		particlePosition: {
+			x: 38,
+			y: 80
+		}
     },
     scenes: {
         "Game": GameScene
