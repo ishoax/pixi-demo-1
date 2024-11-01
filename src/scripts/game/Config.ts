@@ -1,18 +1,18 @@
 import { Back } from "gsap";
-import { Tools } from "../system/Tools";
-import { GameScene } from "./GameScene";
-import { Score, ScoreScreen, Diamond, Platform, Hero, PlatformData } from "../types/ConfigTypes";
 import { Scene } from "../system/Scene";
+import { Tools } from "../system/Tools";
+import { IScoreStyle, IScoreScreenStyle, IDiamondData, IPlatformData, IHeroData, ISinglePlatformData } from "../types/ConfigTypes";
+import { GameScene } from "./GameScene";
 
 export interface Config {
 	loader: any;
 	bgSpeed: number;
-	score: Score;
-	scoreScreen: ScoreScreen;
-	diamonds: Diamond;
-	platforms: Platform;
-	hero: Hero;
-	initialPlatform: PlatformData;
+	score: IScoreStyle;
+	scoreScreen: IScoreScreenStyle;
+	diamonds: IDiamondData;
+	platforms: IPlatformData;
+	hero: IHeroData;
+	initialPlatform: ISinglePlatformData;
 	scenes: { [key: string]: typeof Scene };
 }
 

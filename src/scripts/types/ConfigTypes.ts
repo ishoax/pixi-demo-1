@@ -3,88 +3,88 @@ import { ITextStyle, IPointData } from "pixi.js";
 
 type Color = number;
 
-export interface MinMax {
+interface IMinMax {
 	min: number,
 	max: number
 }
 
-export interface StrokeStyle {
+interface IStrokeStyle {
 	thickness: number;
 	color: Color;
 	quality: number;
 }
 
-export interface Score {
+interface ITextData {
+	position: IPointData;
+	anchor: IPointData;
+	style: Partial<ITextStyle>;
+}
+
+interface ITweenData {
+	duration: number;
+	ease: gsap.EaseFunction;
+}
+
+interface IBGStyle {
+	width: number;
+	height: number;
+	color: Color;
+	stroke: IStrokeStyle
+	radius: number;
+}
+
+interface IScoreBGStyle extends IBGStyle {
+	screenColor?: Color;
+	screenPadding?: number;
+}
+
+interface IButtonStyle {
+	position: IPointData;
+	bg: IBGStyle;
+	text: Partial<ITextData>;
+}
+
+export interface IDiamondData {
+	chance: number;
+	offset: IMinMax
+}
+
+export interface ISinglePlatformData {
+	rows: number;
+	cols: number;
+	x: number;
+}
+
+export interface IRandomPlatformData {
+	rows: IMinMax;
+	cols: IMinMax;
+	offset: IMinMax;
+}
+
+export interface IPlatformData {
+	moveSpeed: number;
+	ranges: IRandomPlatformData
+}
+
+export interface IHeroData {
+	jumpSpeed: number,
+	maxJumps: number,
+	position: IPointData,
+	particlePosition: IPointData;
+}
+
+export interface IScoreStyle {
 	x: number;
 	y: number;
 	anchor: number;
 	style: Partial<ITextStyle>
 }
 
-export interface Background {
-	width: number;
-	height: number;
-	color: Color;
-	stroke: StrokeStyle
-	radius: number;
-}
-
-export interface ScoreScreenBG extends Background {
-	screenColor?: Color;
-	screenPadding?: number;
-}
-
-export interface Text {
-	position: IPointData;
-	anchor: IPointData;
-	style: Partial<ITextStyle>;
-}
-
-export interface TweenType {
-	duration: number;
-	ease: gsap.EaseFunction;
-}
-
-export interface Button {
-	position: IPointData;
-	bg: Background;
-	text: Partial<Text>;
-}
-
-export interface ScoreScreen {
-	background: ScoreScreenBG;
-	button: Button;
-	gameOver: Partial<Text>;
-	score: Partial<Text>;
-	highScore: Partial<Text>;
-	tween: TweenType;
-}
-
-export interface Diamond {
-	chance: number;
-	offset: MinMax
-}
-
-export interface PlatformData {
-	rows: number;
-	cols: number;
-	x: number;
-}
-
-export interface RandomPlatformData {
-	rows: MinMax;
-	cols: MinMax;
-	offset: MinMax;
-}
-
-export interface Platform {
-	moveSpeed: number;
-	ranges: RandomPlatformData
-}
-
-export interface Hero {
-	jumpSpeed: number,
-	maxJumps: number,
-	position: IPointData,
-	particlePosition: IPointData;
+export interface IScoreScreenStyle {
+	background: IScoreBGStyle;
+	button: IButtonStyle;
+	gameOver: Partial<ITextData>;
+	score: Partial<ITextData>;
+	highScore: Partial<ITextData>;
+	tween: ITweenData;
 }

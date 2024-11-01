@@ -1,13 +1,13 @@
 import { Container } from "pixi.js";
 import { App } from "../system/App";
-import { PlatformData, RandomPlatformData } from "../types/ConfigTypes";
+import { IRandomPlatformData, ISinglePlatformData } from "../types/ConfigTypes";
 import { Platform } from "./Platform";
 
 export class Platforms {
 
 	protected platforms: Platform[];
 	protected current: Platform;
-	protected ranges: RandomPlatformData
+	protected ranges: IRandomPlatformData
 
 	public container: Container;
 
@@ -33,7 +33,7 @@ export class Platforms {
 	}
 
 
-	createPlatform(data: PlatformData) {
+	createPlatform(data: ISinglePlatformData) {
 		const platform = new Platform(data.rows, data.cols, data.x);
 		this.container.addChild(platform.container);
 		this.platforms.push(platform);
