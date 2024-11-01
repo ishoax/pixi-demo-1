@@ -1,33 +1,47 @@
 import { Back } from "gsap";
 import { Tools } from "../system/Tools";
 import { GameScene } from "./GameScene";
+import { Score, ScoreScreen, Diamond, Platform, Hero, PlatformData } from "../types/ConfigTypes";
+import { Scene } from "../system/Scene";
 
-export const Config = {
-    loader: Tools.massiveRequire(require["context"]('./../../sprites/', true, /\.(mp3|png|jpe?g)$/)),
-    bgSpeed: 3,
-    score: {
-        x: 10,
-        y: 10,
-        anchor: 0,
-        style: {
-            fontFamily: "Verdana",
-            fontWeight: "bold",
-            fontSize: 44,
-            fill: ["#FF7F50"]
-        }
-    },
+export interface Config {
+	loader: any;
+	bgSpeed: number;
+	score: Score;
+	scoreScreen: ScoreScreen;
+	diamonds: Diamond;
+	platforms: Platform;
+	hero: Hero;
+	initialPlatform: PlatformData;
+	scenes: { [key: string]: typeof Scene };
+}
+
+export const config: Config = {
+	loader: Tools.massiveRequire(require["context"]('./../../sprites/', true, /\.(mp3|png|jpe?g)$/)),
+	bgSpeed: 3,
+	score: {
+		x: 10,
+		y: 10,
+		anchor: 0,
+		style: {
+			fontFamily: "Verdana",
+			fontWeight: "bold",
+			fontSize: 44,
+			fill: ["#FF7F50"]
+		}
+	},
 	scoreScreen: {
 		background: {
 			width: 400,
 			height: 450,
-			bgColor: 0xffab1a,
-			bgStroke: {
+			color: 0xffab1a,
+			stroke: {
 				thickness: 8,
 				color: 0xe99416,
 				quality: 0.4
 			},
 			screenColor: 0xacc254,
-			screenPadding: 20,	
+			screenPadding: 20,
 			radius: 20
 		},
 		button: {
@@ -61,7 +75,7 @@ export const Config = {
 					fontSize: 30,
 					fill: "#FFFFFF"
 				}
-			}			
+			}
 		},
 		gameOver: {
 			anchor: {
@@ -72,12 +86,12 @@ export const Config = {
 				x: 0,
 				y: -175
 			},
-			style: { 
+			style: {
 				fontFamily: "Verdana",
-            	fontWeight: "bold",
+				fontWeight: "bold",
 				fontSize: 50,
-				fill: "#FFFFFF",            
-			}			
+				fill: "#FFFFFF",
+			}
 		},
 		score: {
 			anchor: {
@@ -88,12 +102,12 @@ export const Config = {
 				x: 0,
 				y: -85,
 			},
-			style: { 
+			style: {
 				fontFamily: "Verdana",
 				fontWeight: "normal",
 				fontSize: 40,
 				fill: "#FFFFFF",
-			}	
+			}
 		},
 		highScore: {
 			anchor: {
@@ -104,7 +118,7 @@ export const Config = {
 				x: 0,
 				y: -25,
 			},
-			style: { 
+			style: {
 				fontFamily: "Verdana",
 				fontWeight: "normal",
 				fontSize: 40,
@@ -116,48 +130,48 @@ export const Config = {
 			ease: Back.easeOut
 		}
 	},
-    diamonds: {
-        chance: 0.4,
-        offset: {
-            min: 100,
-            max: 200
-        }
-    },
-    platforms: {
-        moveSpeed: -4,
-        ranges: {
-            rows: {
-                min: 2,
-                max: 6
-            },
-            cols: {
-                min: 3,
-                max: 9
-            },
-            offset: {
-                min: 90,
-                max: 200
-            }
-        }
-    },
-    hero: {
-        jumpSpeed: 12,
-        maxJumps: 2,
-        position: {
-            x: 350,
-            y: 0
-        },
+	diamonds: {
+		chance: 0.4,
+		offset: {
+			min: 100,
+			max: 200
+		}
+	},
+	platforms: {
+		moveSpeed: -4,
+		ranges: {
+			rows: {
+				min: 2,
+				max: 6
+			},
+			cols: {
+				min: 3,
+				max: 9
+			},
+			offset: {
+				min: 90,
+				max: 200
+			}
+		}
+	},
+	hero: {
+		jumpSpeed: 12,
+		maxJumps: 2,
+		position: {
+			x: 350,
+			y: 0
+		},
 		particlePosition: {
 			x: 38,
 			y: 80
 		}
-    },
+	},
 	initialPlatform: {
 		rows: 4,
 		cols: 6,
 		x: 200
 	},
-    scenes: {
-        "Game": GameScene
-    }
+	scenes: {
+		"Game": GameScene
+	}
 };
