@@ -35,16 +35,10 @@ export class Hero extends Container {
 		this.walkTextures = [Texture.from("walk1"), Texture.from("walk2")];
 
 		this.createSprite();
+		this.positionHero();
 		this.createBody();
 		this.createParticleEmitter();
 		App.app.ticker.add(this.update, this);
-
-		// Depending on the window height of the user's browser the Hero will automatically die if the browser window is too small
-		// Calculate the Hero above the initial starting platform created 
-		const tileHeight = Texture.from("tile").height;
-		const rows = App.config.initialPlatform.rows as number;
-		this.x = App.config.hero.position.x;
-		this.y = window.innerHeight - (tileHeight * rows);
 
 		this.jumpSpeed = App.config.hero.jumpSpeed;
 		this.maxJumps = App.config.hero.maxJumps;
@@ -98,6 +92,18 @@ export class Hero extends Container {
 		this.emitter.updateSpawnPos(particlePos.x, particlePos.y);
 		this.emitter.emit = false;
 		this.emitter.autoUpdate = true;
+	}
+
+	/**
+	 * Position hero in the world
+	 */
+	positionHero() {
+		// Depending on the window height of the user's browser the Hero will automatically die if the browser window is too small
+		// Calculate the Hero above the initial starting platform created 
+		const tileHeight = Texture.from("tile").height;
+		const rows = App.config.initialPlatform.rows;
+		this.x = App.config.hero.position.x;
+		this.y = window.innerHeight - (tileHeight * rows);
 	}
 
 	/**
