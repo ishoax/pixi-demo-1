@@ -33,7 +33,7 @@ export class GameScene extends Scene {
 	createUI() {
 		this.labelScore = new LabelScore();
 		this.container.addChild(this.labelScore);
-		this.hero.sprite.on("score", () => {
+		this.hero.on("score", () => {
 			this.labelScore.renderScore(this.hero.score);
 		});
 	}
@@ -63,7 +63,7 @@ export class GameScene extends Scene {
 
 	createHero() {
 		this.hero = new Hero();
-		this.container.addChild(this.hero.sprite);
+		this.container.addChild(this.hero);
 
 		this.container.interactive = true;
 		this.container.on("pointerdown", () => {
@@ -71,7 +71,7 @@ export class GameScene extends Scene {
 		});
 
 		// [14]
-		this.hero.sprite.once("die", () => this.handleHeroDie());
+		this.hero.once("die", () => this.handleHeroDie());
 		// [/14]
 	}
 
