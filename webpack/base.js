@@ -6,9 +6,16 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 module.exports = {
   mode: "development",
   devtool: "eval-source-map",
-  entry: "./src/scripts/index.js",
+  entry: "./src/scripts/index.ts",
   module: {
     rules: [
+	  {
+		test: /\.ts$/,
+		exclude: /node_modules/,
+		use: {
+		  loader: "ts-loader"
+		}
+	  },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -21,6 +28,9 @@ module.exports = {
         use: "file-loader"
       }
     ]
+  },
+  resolve: {
+    extensions: ['.ts', '.js'],
   },
   plugins: [
     new CleanWebpackPlugin({
