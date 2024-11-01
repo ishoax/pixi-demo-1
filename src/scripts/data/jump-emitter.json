@@ -43,7 +43,7 @@
 		"x": 0,
 		"y": 0
 	},
-	"addAtBack": false,
+	"addAtBack": true,
 	"spawnType": "rect",
 	"spawnRect": {
 		"x": 0,
