@@ -18,10 +18,14 @@ export function save() {
  * Load our data object if player has save data
  */
 export function load() {
-	const loadData = JSON.parse(localStorage.getItem(key));
-	// If data loaded update save data object
-	if (loadData) {
-		SaveData = loadData;
+	const item = localStorage.getItem(key);
+	// If local storage has a return item
+	if (item) {
+		const loadData = JSON.parse(item);
+		// If data loaded update save data object
+		if (loadData) {
+			SaveData = loadData;
+		}
 	}
 }
 

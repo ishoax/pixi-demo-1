@@ -1,19 +1,30 @@
-import * as Matter from 'matter-js';
-import { LabelScore } from "./LabelScore";
+import { Engine, Events, IEventCollision, Pair } from 'matter-js';
 import { App } from '../system/App';
-import { Background } from "./Background";
+import { save, SaveData } from "../system/Saving";
 import { Scene } from '../system/Scene';
+import { Background } from "./Background";
+import { Diamond } from './Diamond';
 import { Hero } from "./Hero";
+import { LabelScore } from "./LabelScore";
+import { Platform } from './Platform';
 import { Platforms } from "./Platforms";
 import ScoreScreen from "./ScoreScreen";
-import { save, SaveData } from "../system/Saving";
 
-const GAME_STATE = {
-	PLAYING: "playing",
-	END: "end"
+// States of gameplay
+enum GAME_STATE {
+	PLAYING = "playing",
+	END = "end"
 }
 
 export class GameScene extends Scene {
+
+	protected state: GAME_STATE;
+	protected labelScore: LabelScore;
+	protected hero: Hero;
+	protected bg: Background;
+	protected platforms: Platforms;
+	protected scoreScreen: ScoreScreen;
+
 	create() {
 		this.createBackground();
 		this.createHero();
@@ -25,7 +36,7 @@ export class GameScene extends Scene {
 
 		this.state = GAME_STATE.PLAYING;
 
-		if (process.env.NODE_ENV === 'development') {
+		if (process.env.NODE_ENV === 'development' && App.debugSprite) {
 			this.container.addChild(App.debugSprite);
 		}
 	}
@@ -33,27 +44,27 @@ export class GameScene extends Scene {
 	createUI() {
 		this.labelScore = new LabelScore();
 		this.container.addChild(this.labelScore);
-		this.hero.sprite.on("score", () => {
+		this.hero.on("score", () => {
 			this.labelScore.renderScore(this.hero.score);
 		});
 	}
 	//[13]
 
 	setEvents() {
-		Matter.Events.on(App.physics, 'collisionStart', this.onCollisionStart.bind(this));
+		Events.on(App.physics, 'collisionStart', (event: IEventCollision<Engine>) => this.onCollisionStart(event));
 	}
 
-	onCollisionStart(event) {
-		event.pairs.forEach(pair => {
+	onCollisionStart(event: IEventCollision<Engine>) {
+		event.pairs.forEach((pair: Pair) => {
 			const colliders = [pair.bodyA, pair.bodyB];
-			const hero = colliders.find(body => body.gameHero);
-			const platform = colliders.find(body => body.gamePlatform);
+			const hero = colliders.find(body => Hero.isHero(body));
+			const platform = colliders.find(body => Platform.isPlatform(body));
 
 			if (hero && platform) {
 				this.hero.stayOnPlatform(platform.gamePlatform);
 			}
 
-			const diamond = colliders.find(body => body.gameDiamond);
+			const diamond = colliders.find(body => Diamond.isDiamond(body));
 
 			if (hero && diamond) {
 				this.hero.collectDiamond(diamond.gameDiamond);
@@ -63,7 +74,7 @@ export class GameScene extends Scene {
 
 	createHero() {
 		this.hero = new Hero();
-		this.container.addChild(this.hero.sprite);
+		this.container.addChild(this.hero);
 
 		this.container.interactive = true;
 		this.container.on("pointerdown", () => {
@@ -71,7 +82,7 @@ export class GameScene extends Scene {
 		});
 
 		// [14]
-		this.hero.sprite.once("die", () => this.handleHeroDie());
+		this.hero.once("die", () => this.handleHeroDie());
 		// [/14]
 	}
 
@@ -81,8 +92,8 @@ export class GameScene extends Scene {
 	}
 
 	createPlatforms() {
-		this.platfroms = new Platforms();
-		this.container.addChild(this.platfroms.container);
+		this.platforms = new Platforms();
+		this.container.addChild(this.platforms.container);
 	}
 
 	/**
@@ -118,23 +129,23 @@ export class GameScene extends Scene {
 		this.scoreScreen.buttonCon.once("pointerdown", () => App.scenes.start("Game"));
 	}
 
-	update(dt) {
+	update(dt: number) {
 		if (this.state === GAME_STATE.PLAYING) {
 			this.bg.update(dt);
-			this.platfroms.update(dt);
+			this.platforms.update(dt);
 
-			if (process.env.NODE_ENV === 'development') {
+			if (process.env.NODE_ENV === 'development' && App.debugSprite) {
 				App.debugSprite.texture.update();
 			}
 		}
 	}
 
 	destroy() {
-		Matter.Events.off(App.physics, 'collisionStart', this.onCollisionStart.bind(this));
+		Events.off(App.physics, 'collisionStart', this.onCollisionStart.bind(this));
 		App.app.ticker.remove(this.update, this);
 		this.bg.destroy();
 		this.hero.destroy();
-		this.platfroms.destroy();
+		this.platforms.destroy();
 		this.labelScore.destroy();
 	}
 }
