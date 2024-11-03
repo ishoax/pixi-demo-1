@@ -21,11 +21,8 @@ export function load() {
 	const item = localStorage.getItem(key);
 	// If local storage has a return item
 	if (item) {
-		const loadData = JSON.parse(item);
 		// If data loaded update save data object
-		if (loadData) {
-			SaveData = loadData;
-		}
+		SaveData = JSON.parse(item);
 	}
 }
 
