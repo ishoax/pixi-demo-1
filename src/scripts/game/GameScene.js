@@ -89,6 +89,10 @@ export class GameScene extends Scene {
 	 * Handle Hero "die" event
 	 */
 	handleHeroDie() {
+		// Clear events
+		this.container.removeAllListeners();
+		this.hero.removeAllListeners();
+		
 		// Update high score if needed
 		const score = this.hero.score;
 		if (SaveData.highScore <= score) {
