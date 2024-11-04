@@ -70,7 +70,7 @@ export class Hero extends PIXI.Container {
 
         // [14]
 		// If sprite falls offscreen either down or past the left side of the screen kill Hero
-        if (this.y > window.innerHeight || this.x < -this.sprite.width) {
+        if (this.y > App.config.gameHeight || this.x < -this.sprite.width) {
             this.emit("die");
         }
         // [/14]
@@ -89,7 +89,7 @@ export class Hero extends PIXI.Container {
 		// Calculate the Hero above the initial starting platform created 
 		const tileHeight = PIXI.Texture.from("tile").height;
 		this.x = App.config.hero.position.x;
-		this.y = window.innerHeight - (tileHeight * App.config.initialPlatform.rows);
+		this.y = App.config.gameHeight - (tileHeight * App.config.initialPlatform.rows);
 	}
 
 	/**

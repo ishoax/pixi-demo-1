@@ -54,7 +54,7 @@ export class Platform {
     createContainer(x) {
         this.container = new PIXI.Container();
         this.container.x = x;
-        this.container.y = window.innerHeight - this.height;
+        this.container.y = App.config.gameHeight - this.height;
     }
 
     createTiles() {
