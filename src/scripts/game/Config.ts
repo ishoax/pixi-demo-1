@@ -6,6 +6,8 @@ import { GameScene } from "./GameScene";
 
 export interface Config {
 	loader: any;
+	gameWidth: number;
+	gameHeight: number;
 	bgSpeed: number;
 	score: IScoreStyle;
 	scoreScreen: IScoreScreenStyle;
@@ -18,6 +20,8 @@ export interface Config {
 
 export const config: Config = {
 	loader: Tools.massiveRequire(require["context"]('./../../sprites/', true, /\.(mp3|png|jpe?g)$/)),
+	gameWidth: 1024,
+	gameHeight: 768,
 	bgSpeed: 3,
 	score: {
 		x: 10,

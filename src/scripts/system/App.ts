@@ -27,7 +27,7 @@ class Game {
 
 		this.config = config;
 
-		this.app = new Application({ resizeTo: window });
+		this.app = new Application({ width: config.gameWidth, height: config.gameHeight });
 		document.body.appendChild(this.app.view);
 
 		this.loader = new GameLoader(this.app.loader, this.config);
@@ -38,10 +38,10 @@ class Game {
 		this.app.stage.addChild(this.scenes.container);
 
 		// [06]
-		this.createPhysics();
+		this.createPhysics(config);
 	}
 
-	createPhysics() {
+	createPhysics(config: Config) {
 		this.physics = Engine.create();
 		const runner = Runner.create();
 		Runner.run(runner, this.physics);
@@ -50,8 +50,8 @@ class Game {
 			this.render = Render.create({
 				engine: this.physics,
 				options: {
-					width: window.innerWidth,
-					height: window.innerHeight
+					width: config.gameWidth,
+					height: config.gameHeight
 				},
 			});
 

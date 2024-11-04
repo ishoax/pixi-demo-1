@@ -83,7 +83,7 @@ export class Platform {
 	createContainer(x: number) {
 		this.container = new Container();
 		this.container.x = x;
-		this.container.y = window.innerHeight - this.height;
+		this.container.y = App.config.gameHeight - this.height;
 	}
 
 	createTiles() {

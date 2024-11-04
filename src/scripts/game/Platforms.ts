@@ -41,7 +41,7 @@ export class Platforms {
 	}
 
 	update(dt: number) {
-		if (this.current.container.x + this.current.container.width < window.innerWidth) {
+		if (this.current.container.x + this.current.container.width < App.config.gameWidth) {
 			this.createPlatform(this.randomData);
 		}
 

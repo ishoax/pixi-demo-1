@@ -20,8 +20,8 @@ export default class ScoreScreen extends Container {
 
 		this.create(playerScore);
 
-		this.x = window.innerWidth / 2;
-		this.y = window.innerHeight + (this.getBounds().height / 2); // Offscreen
+		this.x = App.config.gameWidth / 2;
+		this.y = App.config.gameHeight + (this.getBounds().height / 2); // Offscreen
 	}
 
 	/**
@@ -117,7 +117,7 @@ export default class ScoreScreen extends Container {
 	show() {
 		const tweenData = App.config.scoreScreen.tween;
 		gsap.to(this, {
-			pixi: { y: window.innerHeight / 2 }, // Center ScoreScreen in the window
+			pixi: { y: App.config.gameHeight / 2 }, // Center ScoreScreen in the window
 			duration: tweenData.duration,
 			ease: tweenData.ease,
 		});
