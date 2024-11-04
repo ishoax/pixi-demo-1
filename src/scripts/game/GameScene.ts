@@ -24,6 +24,7 @@ export class GameScene extends Scene {
 	protected bg: Background;
 	protected platforms: Platforms;
 	protected scoreScreen: ScoreScreen;
+	protected collisionBinding: (event: IEventCollision<Engine>) => void;
 
 	create() {
 		this.createBackground();
@@ -51,7 +52,8 @@ export class GameScene extends Scene {
 	//[13]
 
 	setEvents() {
-		Events.on(App.physics, 'collisionStart', (event: IEventCollision<Engine>) => this.onCollisionStart(event));
+		this.collisionBinding = (event: IEventCollision<Engine>) => this.onCollisionStart(event);
+		Events.on(App.physics, 'collisionStart', this.collisionBinding);
 	}
 
 	onCollisionStart(event: IEventCollision<Engine>) {
@@ -141,7 +143,7 @@ export class GameScene extends Scene {
 	}
 
 	destroy() {
-		Events.off(App.physics, 'collisionStart', this.onCollisionStart.bind(this));
+		Events.off(App.physics, 'collisionStart', this.collisionBinding);
 		App.app.ticker.remove(this.update, this);
 		this.bg.destroy();
 		this.hero.destroy();
