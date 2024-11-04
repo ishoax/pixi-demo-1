@@ -12,7 +12,7 @@ class Application {
 
         this.config = config;
 
-        this.app = new PIXI.Application({resizeTo: window});
+        this.app = new PIXI.Application({ width: config.gameWidth, height: config.gameHeight });
         document.body.appendChild(this.app.view);
 
         this.loader = new Loader(this.app.loader, this.config);
@@ -23,10 +23,10 @@ class Application {
         this.app.stage.addChild(this.scenes.container);
 
         // [06]
-        this.createPhysics();
+        this.createPhysics(config);
     }
 
-    createPhysics() {
+    createPhysics(config) {
         this.physics = Matter.Engine.create();
         const runner = Matter.Runner.create();
         Matter.Runner.run(runner, this.physics);
@@ -35,8 +35,8 @@ class Application {
 			this.render = Matter.Render.create({
 				engine: this.physics,
 				options: {
-					width: window.innerWidth,
-					height: window.innerHeight
+					width: config.gameWidth,
+					height: config.gameHeight,
 				},
 			});
 
